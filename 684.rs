@@ -1,5 +1,6 @@
 //684. Redundant Connection
 //Solution 1: Using Union-Find (Disjoint Set Union) 
+//Solution 2: Using DFS 
 impl Solution {
     pub fn find_redundant_connection(edges: Vec<Vec<i32>>) -> Vec<i32> {
         let n = edges.len();
@@ -44,4 +45,45 @@ impl Solution {
         
         vec![] 
     }
+} //end of solution 1 
+
+//solution 2
+ use std::collections::{HashMap, HashSet};
+impl Solution {
+    pub fn find_redundant_connection(edges: Vec<Vec<i32>>) -> Vec<i32> {
+        let mut graph: HashMap<i32, Vec<i32>> = HashMap::new();
+        fn dfs(
+            graph: &HashMap<i32, Vec<i32>>,
+            current: i32,
+            target: i32,
+            visited: &mut HashSet<i32>,
+        ) -> bool {
+            if current == target {
+                return true; 
+            }
+            visited.insert(current);
+            if let Some(neighbors) = graph.get(&current) {
+                for &neighbor in neighbors {
+                    if !visited.contains(&neighbor) {
+                        if dfs(graph, neighbor, target, visited) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            false
+        }
+        for edge in edges {
+            let u = edge[0];
+            let v = edge[1];
+            let mut visited = HashSet::new();
+            if graph.contains_key(&u) && graph.contains_key(&v) && dfs(&graph, u, v, &mut visited) {
+                return edge; 
+            }
+            graph.entry(u).or_insert_with(Vec::new).push(v);
+            graph.entry(v).or_insert_with(Vec::new).push(u);
+        }
+        vec![] 
+    }
 }
+
