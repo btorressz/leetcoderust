@@ -1,4 +1,93 @@
 
+// I attempted this problem 4 times and will show my failed attempts below the successful one.
+//SUCCESSFUL TRY
+use std::collections::{HashSet, HashMap};
+
+impl Solution {
+    pub fn find_words(board: Vec<Vec<char>>, words: Vec<String>) -> Vec<String> {
+        let mut words_set: HashSet<String> = HashSet::new();
+        let mut prefix_set: HashSet<String> = HashSet::new();
+
+        for word in &words {
+            words_set.insert(word.clone());
+            for i in 1..=word.len() {
+                prefix_set.insert(word[..i].to_string());
+            }
+        }
+
+        let mut result = HashSet::new();
+        let mut visited = vec![vec![false; board[0].len()]; board.len()];
+        let m = board.len();
+        let n = board[0].len();
+
+        fn dfs(
+            board: &Vec<Vec<char>>,
+            i: usize,
+            j: usize,
+            visited: &mut Vec<Vec<bool>>,
+            current_word: &mut String,
+            words_set: &HashSet<String>,
+            prefix_set: &HashSet<String>,
+            result: &mut HashSet<String>,
+        ) {
+            if i >= board.len() || j >= board[0].len() || visited[i][j] {
+                return;
+            }
+
+            current_word.push(board[i][j]);
+
+            if !prefix_set.contains(current_word) {
+                current_word.pop(); 
+                return;
+            }
+
+            if words_set.contains(current_word) {
+                result.insert(current_word.clone());
+            }
+
+            visited[i][j] = true;
+
+            let directions = [(0, 1), (1, 0), (0, -1), (-1, 0)];
+            for &(dx, dy) in &directions {
+                let ni = i as isize + dx;
+                let nj = j as isize + dy;
+                if ni >= 0 && ni < board.len() as isize && nj >= 0 && nj < board[0].len() as isize {
+                    dfs(
+                        board,
+                        ni as usize,
+                        nj as usize,
+                        visited,
+                        current_word,
+                        words_set,
+                        prefix_set,
+                        result,
+                    );
+                }
+            }
+
+            current_word.pop(); 
+            visited[i][j] = false;
+        }
+
+        for i in 0..m {
+            for j in 0..n {
+                dfs(
+                    &board,
+                    i,
+                    j,
+                    &mut visited,
+                    &mut String::new(),
+                    &words_set,
+                    &prefix_set,
+                    &mut result,
+                );
+            }
+        }
+
+        result.into_iter().collect()
+    }
+}
+
 
 
 
