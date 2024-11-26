@@ -1,5 +1,5 @@
 //485 Max Consecutive Ones
-//Solution 1 
+//Solution 1 : Linear Traversal	
 impl Solution {
     pub fn find_max_consecutive_ones(nums: Vec<i32>) -> i32 {
         let mut max_count = 0;
@@ -16,7 +16,7 @@ impl Solution {
     }
 } //end of solution 1
 
-//Solution 2
+//Solution 2 : Grouping + Iterators
 impl Solution {
     pub fn find_max_consecutive_ones(nums: Vec<i32>) -> i32 {
         nums.split(|&x| x == 0) 
