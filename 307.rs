@@ -1,3 +1,5 @@
+//307. Range Sum Query - Mutable
+
 pub struct NumArray {
     segment_tree: Vec<i32>, // Segment tree array
     nums: Vec<i32>,         // Original array to store values
