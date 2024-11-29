@@ -30,3 +30,23 @@ impl Solution {
         ans
     }
 }
+/*impl Solution {
+    pub fn k_smallest_pairs(nums1: Vec<i32>, nums2: Vec<i32>, k: i32) -> Vec<Vec<i32>> {
+        let mut pairs = Vec::new();
+
+        // Generate all pairs
+        for &n1 in &nums1 {
+            for &n2 in &nums2 {
+                pairs.push((n1 + n2, vec![n1, n2]));
+            }
+        }
+
+        // Sort pairs by sum
+        pairs.sort_by(|a, b| a.0.cmp(&b.0));
+
+        // Take the first k pairs
+        pairs.iter().take(k as usize).map(|p| p.1.clone()).collect()
+    }
+}
+
+*/
