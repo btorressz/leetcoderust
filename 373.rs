@@ -50,3 +50,40 @@ impl Solution {
 }
 
 */
+
+/*
+impl Solution {
+    pub fn k_smallest_pairs(nums1: Vec<i32>, nums2: Vec<i32>, k: i32) -> Vec<Vec<i32>> {
+        let mut ans = Vec::new();
+        let mut indices = vec![0; nums1.len()]; // Keeps track of current index in nums2 for each nums1 element
+
+        for _ in 0..k {
+            let mut min_sum = i32::MAX;
+            let mut idx = -1;
+
+            // Find the smallest sum among pairs
+            for i in 0..nums1.len() {
+                if indices[i] < nums2.len() {
+                    let sum = nums1[i] + nums2[indices[i]];
+                    if sum < min_sum {
+                        min_sum = sum;
+                        idx = i as i32;
+                    }
+                }
+            }
+
+            // If no valid pair is found, break
+            if idx == -1 {
+                break;
+            }
+
+            // Add the smallest pair to the result
+            ans.push(vec![nums1[idx as usize], nums2[indices[idx as usize]]]);
+            indices[idx as usize] += 1; // Move the pointer for this nums1 element
+        }
+
+        ans
+    }
+}
+
+*/
