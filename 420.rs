@@ -1,5 +1,90 @@
 //420. Strong Password Checker
 
+/*
+impl Solution {
+    pub fn strong_password_checker(password: String) -> i32 {
+        let n = password.len();
+        let mut missing_types = 3;
+        let mut lower = false;
+        let mut upper = false;
+        let mut digit = false;
+
+        // Count missing character types
+        for ch in password.chars() {
+            if ch.is_lowercase() { lower = true; }
+            if ch.is_uppercase() { upper = true; }
+            if ch.is_digit(10) { digit = true; }
+        }
+        missing_types -= (lower as i32 + upper as i32 + digit as i32);
+
+        // Count repetitive sequences
+        let mut repeat_lens = Vec::new();
+        let chars: Vec<char> = password.chars().collect();
+        let mut i = 0;
+
+        while i < n {
+            let mut j = i;
+            while j < n && chars[j] == chars[i] {
+                j += 1;
+            }
+            if j - i >= 3 {
+                repeat_lens.push(j - i);
+            }
+            i = j;
+        }
+
+        // Handle different length scenarios
+        if n < 6 {
+            return std::cmp::max(6 - n as i32, missing_types);
+        }
+
+        if n <= 20 {
+            let mut replace = 0;
+            for &len in &repeat_lens {
+                replace += len / 3;
+            }
+            return std::cmp::max(replace as i32, missing_types);
+        }
+
+        // Complex case: > 20 characters
+        let delete = n - 20;
+        let mut replace = 0;
+
+        // Try to use deletions to break repetitive sequences
+        let mut temp_repeat_lens = repeat_lens.clone();
+        let mut remaining_delete = delete;
+
+        // Reduce sequences divisible by 3 first
+        for i in 0..temp_repeat_lens.len() {
+            if remaining_delete > 0 && temp_repeat_lens[i] % 3 == 0 {
+                let remove = std::cmp::min(remaining_delete, temp_repeat_lens[i] / 3 * 3);
+                temp_repeat_lens[i] -= remove;
+                remaining_delete -= remove;
+            }
+        }
+
+        // Reduce sequences where len % 3 == 1
+        for i in 0..temp_repeat_lens.len() {
+            if remaining_delete > 0 && temp_repeat_lens[i] % 3 == 1 {
+                let remove = std::cmp::min(remaining_delete, temp_repeat_lens[i] - 2);
+                temp_repeat_lens[i] -= remove;
+                remaining_delete -= remove;
+            }
+        }
+
+        // Reduce remaining sequences
+        for &len in &temp_repeat_lens {
+            replace += len / 3;
+        }
+
+        // Total changes = deletions + remaining replacements + missing types
+        delete as i32 + std::cmp::max(replace as i32, missing_types)
+    }
+}
+
+
+*/
+
 /* impl Solution {
     pub fn strong_password_checker(password: String) -> i32 {
         // Helper function to count the types of characters (lowercase, uppercase, digits)
