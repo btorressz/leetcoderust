@@ -1,3 +1,70 @@
+//2054. Two Best Non-Overlapping Events
+
+//ATTEMPT FOUR: SUCCESSFUL 
+// I sorted the events by start time to process them in chronological order.
+// I used binary search to find the first non-overlapping event after the current one.
+// I implemented dynamic programming (dp) to store the maximum achievable value starting from each event.
+
+use std::cmp::max;
+
+impl Solution {
+    pub fn max_two_events(events: Vec<Vec<i32>>) -> i32 {
+        // Sort events by start time
+        let mut events = events;
+        events.sort_by_key(|e| e[0]);
+        
+        let n = events.len();
+        
+        //  Create dp array where dp[i] holds the best value starting from event i
+        let mut dp = vec![0; n];
+        dp[n - 1] = events[n - 1][2]; // The best value for the last event is its own value
+        
+        //  Fill dp array (maximum value starting from event i)
+        for i in (0..n - 1).rev() {
+            dp[i] = max(dp[i + 1], events[i][2]);
+        }
+        
+        // Use binary search to find the next valid event for each event
+        let mut ans = 0;
+        
+        for i in 0..n {
+            // Binary search to find the first event that starts after current event's end time
+            let mut left = i + 1;
+            let mut right = n;
+            let current_end = events[i][1];
+            let mut idx = n;
+            
+            // Perform binary search to find the next non-overlapping event
+            while left < right {
+                let mid = (left + right) / 2;
+                if events[mid][0] > current_end {
+                    idx = mid;
+                    right = mid;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            
+            // If found a valid event (idx < n), add its value to the current event's value
+            if idx < n {
+                ans = max(ans, events[i][2] + dp[idx]);
+            }
+            
+            // Update the answer with the value of the current event alone
+            ans = max(ans, events[i][2]);
+        }
+        
+        // Return the final answer
+        ans
+    }
+}
+
+//FAILED ATTEMPTS
+// I initially sorted the events by end time, assuming that a greedy approach would work for finding non-overlapping pairs.
+// I tried using binary search to find the next valid event but encountered issues with indexing.
+// I combined dynamic programming with a greedy approach, but failed to properly account for event overlaps and indexing.
+
+
 /*ATTEMPT Three:WRONG ANSWER :( 
 use std::cmp::max;
 impl Solution {
