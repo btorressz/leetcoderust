@@ -6,7 +6,7 @@ impl Solution {
     pub fn strong_password_checker(password: String) -> i32 {
         let n = password.len();
         let mut missing_types = 3;
-         et mut lower = false;
+        let mut lower = false;
         let mut upper = false;
         let mut digit = false;
 
