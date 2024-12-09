@@ -5,7 +5,7 @@ impl Solution {
     pub fn beautiful_subsets(nums: Vec<i32>, k: i32) -> i32 {
         let mut ans = -1;
         let n = nums.len();
-        let mut cnt = vec![0; 1010]; // This is analogous to Go's [1010]int
+        let mut cnt = vec![0; 1010]; // This is analogous to Go's [1010]int (I first solved this problem in Go on leetcode back in May and wanted to try it solve it in Rust as well) 
 
         // Define the recursive dfs function
         fn dfs(i: usize, n: usize, nums: &Vec<i32>, k: i32, cnt: &mut Vec<i32>, ans: &mut i32) {
