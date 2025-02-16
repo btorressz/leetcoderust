@@ -1,3 +1,5 @@
+//1718. Construct the Lexicographically Largest Valid Sequence
+
 //attempt 1 
 /*impl Solution {
     pub fn construct_distanced_sequence(n: i32) -> Vec<i32> {
@@ -44,3 +46,51 @@
         path[1..].to_vec()
     }
 }*/
+
+//Attempt 2 : Successful attempt
+impl Solution {
+    pub fn construct_distanced_sequence(n: i32) -> Vec<i32> {
+        fn backtrack(index: usize, n: usize, path: &mut Vec<i32>, used: &mut Vec<bool>) -> bool {
+            if index == path.len() {
+                return true; // Successfully placed all numbers
+            }
+            if path[index] != 0 {
+                return backtrack(index + 1, n, path, used);
+            }
+            
+            for i in (1..=n).rev() { // Try placing the largest numbers first (greedy approach)
+                if used[i] {
+                    continue;
+                }
+                if i == 1 {
+                    path[index] = 1;
+                    used[1] = true;
+                    if backtrack(index + 1, n, path, used) {
+                        return true;
+                    }
+                    path[index] = 0;
+                    used[1] = false;
+                } else if index + i < path.len() && path[index + i] == 0 {
+                    path[index] = i as i32;
+                    path[index + i] = i as i32;
+                    used[i] = true;
+                    
+                    if backtrack(index + 1, n, path, used) {
+                        return true;
+                    }
+                    
+                    path[index] = 0;
+                    path[index + i] = 0;
+                    used[i] = false;
+                }
+            }
+            false
+        }
+
+        let mut path = vec![0; (n * 2 - 1) as usize]; // Sequence has 2*n - 1 length
+        let mut used = vec![false; (n + 1) as usize]; // Tracks used numbers
+
+        backtrack(0, n as usize, &mut path, &mut used);
+        path
+    }
+}
