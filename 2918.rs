@@ -1,3 +1,28 @@
+//2918. Minimum Equal Sum of Two Arrays After Replacing Zeros
+
+//Successful attempt 
+
+impl Solution {
+    pub fn min_sum(nums1: Vec<i32>, nums2: Vec<i32>) -> i64 {
+        let sum1: i64 = nums1.iter().map(|&x| x as i64).sum::<i64>() + nums1.iter().filter(|&&x| x == 0).count() as i64;
+        let sum2: i64 = nums2.iter().map(|&x| x as i64).sum::<i64>() + nums2.iter().filter(|&&x| x == 0).count() as i64;
+
+        if sum1 > sum2 {
+            return Solution::min_sum(nums2, nums1);
+        }
+
+        if sum1 == sum2 {
+            return sum1;
+        }
+
+        if nums1.iter().all(|&x| x != 0) {
+            return -1;
+        }
+
+        sum2
+    }
+}
+
 /*
 attempt one wrong answer
 impl Solution {
