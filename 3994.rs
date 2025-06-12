@@ -1,3 +1,5 @@
+//3394. Check if Grid can be Cut into Sections
+
 //Attempt one : wrong ansswer 
 /* impl Solution {
     pub fn check_valid_cuts(_n: i32, rectangles: Vec<Vec<i32>>) -> bool {
