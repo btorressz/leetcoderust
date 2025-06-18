@@ -1,3 +1,5 @@
+//2966. Divide Array Into Arrays With Max Difference
+
 impl Solution {
     pub fn divide_array(mut nums: Vec<i32>, k: i32) -> Vec<Vec<i32>> {
         let n = nums.len();
