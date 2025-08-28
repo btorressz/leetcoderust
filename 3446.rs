@@ -1,3 +1,58 @@
+//attempt two correct answer 
+//3446. Sort Matrix by Diagonals
+//At first, I incorrectly applied the same sorting logic to all diagonals in the matrix, without distinguishing between the bottom-left 
+//and top-right triangles. This caused the output to fail because some diagonals needed to be sorted in descending order, while others needed ascending. I fixed it by identifying which triangle each 
+//diagonal belonged to: I sorted the bottom-left diagonals (including the main diagonal) 
+//in non-increasing order and the top-right diagonals in non-decreasing order. This ensured the output matched the problem’s directional sorting constraints.
+
+impl Solution {
+    pub fn sort_matrix(mut grid: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+        let n = grid.len();
+
+        // Helper: sort and reassign diagonal
+        fn process_diagonal(
+            mut i: usize,
+            mut j: usize,
+            n: usize,
+            grid: &mut Vec<Vec<i32>>,
+            reverse: bool,
+        ) {
+            let mut diag = Vec::new();
+            let (mut x, mut y) = (i, j);
+
+            while x < n && y < n {
+                diag.push(grid[x][y]);
+                x += 1;
+                y += 1;
+            }
+
+            if reverse {
+                diag.sort_by(|a, b| b.cmp(a)); // descending
+            } else {
+                diag.sort(); // ascending
+            }
+
+            let (mut x, mut y) = (i, j);
+            for val in diag {
+                grid[x][y] = val;
+                x += 1;
+                y += 1;
+            }
+        }
+
+        // Bottom-left triangle (including main diagonal) → sort in descending
+        for i in (0..n).rev() {
+            process_diagonal(i, 0, n, &mut grid, true);
+        }
+
+        // Top-right triangle → sort in ascending (exclude main diagonal which is already processed)
+        for j in 1..n {
+            process_diagonal(0, j, n, &mut grid, false);
+        }
+
+        grid
+    }
+}
 
 
 //attempt one wrong answer 
