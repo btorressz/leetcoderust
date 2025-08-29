@@ -1,3 +1,9 @@
+//3021 Alice and Bob Playing Flower Game
+
+//In my first two attempts, I mistakenly did the multiplication using i32, which caused integer overflow for large inputs even though I cast the final result to i64. The cast came too late 
+//after the overflow had already happened.
+//In the third attempt, I also mixed up variables, using n where I should’ve used m, introducing another bug.
+//In the fourth attempt, I fixed both issues by casting n and m to i64 before doing any math and corrected the variable usage. That made the solution accurate and passed all test cases.
 
 //attempt four successful
 
